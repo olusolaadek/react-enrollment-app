@@ -1,38 +1,56 @@
 .App {
+  font-family: sans-serif;
+  font-size: 16px;
+  text-align: left;
+  width: 100%;
+  padding-top: 30px;
+  float: left;
+}
+
+.programs {
+  position: absolute;
+  background: rgba(22, 61, 97, 0.794);
+  left: 50%;
+  height: 400px;
+  width: 40%;
+  transform: translate(-50%, 0%);
   text-align: center;
+  color: rgba(31, 226, 80, 0.671);
+  padding-left: 100px;
+  width: 100%;
+  float: left;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+.radioSel {
+  margin-left: 30px;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+.parentInputs {
+  margin: 15px 0;
+  font-size: 16px;
+  padding: 10px;
+  margin-left: 10px;
+  width: 250px;
+  border-top: none;
+  border-left: none;
+  border-right: none;
+  background: rgba(245, 240, 240, 0.925);
+  color: rgb(5, 19, 66);
+  outline: none;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+.title {
+  color: rgba(255, 166, 0, 0.897)
 }
 
-.App-link {
-  color: #61dafb;
+.parentLabels {
+  padding-bottom: 20px;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+
+.appDropDowns {
+  color: black;
+  font-family: inherit;
+  font-size: inherit;
+  margin-left: 10px;
 }
