@@ -31,7 +31,14 @@ function App() {
       setCurrentSeats(ugSeats);
     }
   };
-
+  const handleItemSelection = (action, id) => {
+    setAction(action);
+    setSelItemId(id);
+  };
+  const restoreSeats = (pgm) => {
+    pgm === "UG" ? setUgSeats(ugSeats + 1) : setPgSeats(pgSeats + 1);
+    setAction("");
+  };
   useEffect(() => {
     if (program === "PG") {
       setCurrentSeats(pgSeats);
@@ -84,10 +91,14 @@ function App() {
         currentSeats={program === "UG" ? ugSeats : pgSeats}
         setUpdatedSeats={onUpdatedSeats}
         setStudentDetails={setStudentDetails}
+        handleItemSelection={handleItemSelection}
       />
       <EnrolList
         studentDetails={studentDetails}
         setStudentDetails={setStudentDetails}
+        selectedItemId={selItemId}
+        action={action}
+        restoreSeats={restoreSeats}
       />
     </div>
   );
