@@ -58,6 +58,15 @@ let items = [];
 
 const EnrolList = (props) => {
   useEffect(() => {
+    if (props.action === "edit") {
+      const currentItem = items.filter(
+        (item) => item.key === props.selectedItemId
+      )[0];
+      props.setSelectedProgram(currentItem.program);
+    }
+  }, [props.selectedItemId, props]);
+
+  useEffect(() => {
     // Execute deletion on the selected item.
     if (props.action === "delete") {
       // filter the selected item
@@ -80,6 +89,9 @@ const EnrolList = (props) => {
       } else {
         items = [...items, props.studentDetails];
       }
+
+      props.studentDetails.program = props.chosenProgram;
+      props.setUpdatedSeats(props.currentSeats - 1);
       props.setStudentDetails({});
     }
   }, [props]);

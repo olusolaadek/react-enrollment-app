@@ -1,7 +1,8 @@
+import React, { useState, Suspense } from "react";
 import "./App.css";
-import EnrolmentForm from ".//Enrollment/EnrollmentForm";
-import EnrolList from "./Enrollment/EnrolList";
-import { useState } from "react";
+import EnrolmentForm from "./Enrolment/EnrolmentForm";
+// import EnrolList from "./Enrollment/EnrolList";
+const EnrolList = React.lazy(() => import("./Enrolment/EnrolList"));
 
 const App = () => {
   const [program, setProgram] = useState("UG");
@@ -16,6 +17,7 @@ const App = () => {
   const handleChange = (event) => {
     setProgram(event.target.value);
     setIsUGChecked(!isUGChecked);
+
     if (isRestoreSeats) {
       event.target.value === "UG"
         ? setPgSeats(pgSeats + 1)
@@ -78,20 +80,26 @@ const App = () => {
         </ul>
       </div>
       <EnrolmentForm
-        chosenProgram={program}
-        setUpdatedSeats={setUpdatedSeats}
-        currentSeats={program === "UG" ? ugSeats : pgSeats}
         setStudentDetails={setStudentDetails}
         handleItemSelection={handleItemSelection}
-        setSelectedProgram={setSelectedProgram}
       />
-      <EnrolList
-        studentDetails={studentDetails}
-        setStudentDetails={setStudentDetails}
-        selectedItemId={selItemId}
-        action={action}
-        restoreSeats={restoreSeats}
-      />
+      <Suspense
+        fallback={
+          <div className="enrolList">Enrolled students details loading...</div>
+        }
+      >
+        <EnrolList
+          studentDetails={studentDetails}
+          setStudentDetails={setStudentDetails}
+          selectedItemId={selItemId}
+          action={action}
+          restoreSeats={restoreSeats}
+          chosenProgram={program}
+          setUpdatedSeats={setUpdatedSeats}
+          currentSeats={program === "UG" ? ugSeats : pgSeats}
+          setSelectedProgram={setSelectedProgram}
+        />
+      </Suspense>
     </div>
   );
 };

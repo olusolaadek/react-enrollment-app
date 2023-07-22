@@ -1,5 +1,5 @@
 import { useState } from "react";
-import "./EnrollmentForm.css";
+import "./EnrolmentForm.css";
 import { MdEdit, MdDelete } from "react-icons/md";
 
 const EnrolmentForm = (props) => {
@@ -9,11 +9,13 @@ const EnrolmentForm = (props) => {
   const [btnValue, setBtnValue] = useState("Enrol");
   const [studentID, setStudentID] = useState(0);
 
-  const handleEdit = (stId, program) => {
+  const handleEdit = (stId) => {
+    // , program
     handleInputReset(firstName, lastName, email);
     setStudentID(stId);
     setBtnValue("Update");
-    props.setSelectedProgram(program);
+    props.handleItemSelection("edit", stId);
+    // props.setSelectedProgram(program);
   };
   const handleClickCancel = (event) => {
     handleInputReset("", "", "");
@@ -23,7 +25,9 @@ const EnrolmentForm = (props) => {
 
   const handleClick = (event) => {
     handleInputReset("", "", "");
-    props.setUpdatedSeats(props.currentSeats - 1);
+
+    // props.setUpdatedSeats(props.currentSeats - 1);
+
     // Student ID generation
     const randomKey = Math.floor(1000 + Math.random() * 9000);
     let id = randomKey;
@@ -36,20 +40,16 @@ const EnrolmentForm = (props) => {
       lname: lastName,
       program: props.chosenProgram,
       email: email,
-      edit: (
-        <MdEdit
-          className="actionIcon"
-          onClick={() => handleEdit(id, props.chosenProgram)}
-        />
-      ),
+      edit: <MdEdit className="actionIcon" onClick={() => handleEdit(id)} />,
       delete: (
         <MdDelete
-          className="actionIcon"
+          className="actionIconRed"
           onClick={() => props.handleItemSelection("delete", id)}
         />
       ),
     });
     setBtnValue("Enrol");
+
     event.preventDefault();
   };
 
