@@ -51,11 +51,12 @@ const App = () => {
       <div className="programs">
         <h3 className="title">Student Enrolment Form</h3>
         <ul className="ulEnrol">
-          <li className="parentLabels" onChange={handleChange}>
+          <li className="parentLabels">
             <input
               type="radio"
               value="UG"
               name="programGroup"
+              onChange={handleChange}
               checked={isUGChecked}
             />
             Undergraduate
@@ -64,6 +65,7 @@ const App = () => {
               className="radioSel"
               value="PG"
               name="programGroup"
+              onChange={handleChange}
               checked={!isUGChecked}
             />
             Postgraduate

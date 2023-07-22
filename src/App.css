@@ -17,12 +17,18 @@
   text-align: center;
   color: rgba(31, 226, 80, 0.671);
   padding-left: 100px;
-  width: 100%;
-  float: left;
+
+}
+
+.ulEnrol1 {
+  list-style-type: none;
+  text-align: unset;
+  padding: 0;
 }
 
 .radioSel {
   margin-left: 30px;
+
 }
 
 .parentInputs {

@@ -69,7 +69,7 @@ const EnrolmentForm = (props) => {
         <form className="enrolForm" name="enrolForm">
           <ul className="ulEnrol">
             <li>
-              <label for="firstname"></label>
+              <label htmlFor="firstname"></label>
               <input
                 type="text"
                 className="inputFields"
@@ -81,7 +81,7 @@ const EnrolmentForm = (props) => {
               />
             </li>
             <li>
-              <label for="lastname"></label>
+              <label htmlFor="lastname"></label>
               <input
                 type="test"
                 className="inputFields"
@@ -93,7 +93,7 @@ const EnrolmentForm = (props) => {
               />
             </li>
             <li>
-              <label for="email"></label>
+              <label htmlFor="email"></label>
               <input
                 type="email"
                 className="inputFields"
