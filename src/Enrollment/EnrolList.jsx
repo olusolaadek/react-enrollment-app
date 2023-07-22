@@ -1,9 +1,6 @@
-import React, { useEffect } from "react";
-
-import { DetailsList } from "@fluentui/react/lib/DetailsList";
-
 import "./EnrolList.css";
-
+import { DetailsList } from "@fluentui/react/lib/DetailsList";
+import { useEffect } from "react";
 // Columns for the detail list.
 const columns = [
   {
@@ -50,36 +47,39 @@ const columns = [
     key: "delete",
     name: "Delete",
     fieldName: "delete",
-    minWidth: 30,
+    minWidth: 50,
     maxWidth: 200,
     isResizable: true,
   },
 ];
 
-// Test items
+// Test tems
 let items = [];
 
 const EnrolList = (props) => {
   useEffect(() => {
-    const curItemKey = props.studentDetails.key;
-    // console.log(props.studentDetails);
-    if (curItemKey) {
-      items = [...items, props.studentDetails];
-      props.setStudentDetails({});
-    }
-    //
     // Execute deletion on the selected item.
-    // console.log(items);
     if (props.action === "delete") {
-      const deletedItem = items.filter(
+      // filter the selected item
+      const deleteItem = items.filter(
         (item) => item.key === props.selectedItemId
       )[0];
-
-      // console.log("Selected item: ", deletedItem);
-      // Remove the item from list
-      items = items.filter((item) => item !== deletedItem);
+      // Remove from the list
+      items = items.filter((item) => item !== deleteItem);
       // update seats
-      props.restoreSeats(deletedItem.program);
+      props.restoreSeats(deleteItem.program);
+    }
+    // Update the list items with the student details after rendering
+    const curItemKey = props.studentDetails.key;
+    if (curItemKey) {
+      const i = items.findIndex((item) => item.key === curItemKey);
+      if (i > -1) {
+        items = items.map((item) =>
+          item.key === curItemKey ? props.studentDetails : item
+        );
+      } else {
+        items = [...items, props.studentDetails];
+      }
       props.setStudentDetails({});
     }
   }, [props]);

@@ -34,16 +34,20 @@
     padding: 0;
 }
 
-#btnEnrol {
+.btn {
     border: 1px solid;
     background: rgb(50, 58, 59);
     font-size: 18px;
     color: white;
     margin-top: 20px;
-    padding: 10px 50px;
+    padding: 10px 20px;
     cursor: pointer;
     transition: 0.4s;
     margin-bottom: 30px;
+}
+
+#btnCancel {
+    margin-left: 20px;
 }
 
 ::placeholder {
@@ -58,5 +62,12 @@
 .actionIcon {
     font-size: 16px;
     color: rgb(77, 133, 141);
+    cursor: pointer;
+}
+
+.actionIconRed {
+    font-size: 16px;
+    color: red;
+    /* rgb(77, 133, 141); */
     cursor: pointer;
 }

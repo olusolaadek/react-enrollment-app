@@ -1,26 +1,47 @@
 import { useState } from "react";
-import { MdEdit, MdDelete } from "react-icons/md";
 import "./EnrollmentForm.css";
+import { MdEdit, MdDelete } from "react-icons/md";
+
 const EnrolmentForm = (props) => {
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
+  const [btnValue, setBtnValue] = useState("Enrol");
+  const [studentID, setStudentID] = useState(0);
+
+  const handleEdit = (stId, program) => {
+    handleInputReset(firstName, lastName, email);
+    setStudentID(stId);
+    setBtnValue("Update");
+    props.setSelectedProgram(program);
+  };
+  const handleClickCancel = (event) => {
+    handleInputReset("", "", "");
+    setBtnValue("Enrol");
+    event.preventDefault();
+  };
 
   const handleClick = (event) => {
     handleInputReset("", "", "");
-
     props.setUpdatedSeats(props.currentSeats - 1);
-
     // Student ID generation
     const randomKey = Math.floor(1000 + Math.random() * 9000);
-    const id = randomKey;
+    let id = randomKey;
+    setStudentID(randomKey);
+    // For Enrol, use the randomKey variable and for Update use the state variable
+    id = btnValue === "Enrol" ? randomKey : studentID;
     props.setStudentDetails({
       key: id,
       fname: firstName,
       lname: lastName,
       program: props.chosenProgram,
       email: email,
-      edit: <MdEdit className="actionIcon" />,
+      edit: (
+        <MdEdit
+          className="actionIcon"
+          onClick={() => handleEdit(id, props.chosenProgram)}
+        />
+      ),
       delete: (
         <MdDelete
           className="actionIcon"
@@ -28,9 +49,10 @@ const EnrolmentForm = (props) => {
         />
       ),
     });
-
+    setBtnValue("Enrol");
     event.preventDefault();
   };
+
   //change of input value set method
   const handleInputChange = (setInput, event) => {
     setInput(event.target.value);
@@ -47,7 +69,7 @@ const EnrolmentForm = (props) => {
         <form className="enrolForm" name="enrolForm">
           <ul className="ulEnrol">
             <li>
-              <label htmlFor="firstname"></label>
+              <label for="firstname"></label>
               <input
                 type="text"
                 className="inputFields"
@@ -55,12 +77,11 @@ const EnrolmentForm = (props) => {
                 name="firstname"
                 placeholder="First Name"
                 value={firstName}
-                // setFirstName as a function parameter
                 onChange={(event) => handleInputChange(setFirstName, event)}
               />
             </li>
             <li>
-              <label htmlFor="lastname"></label>
+              <label for="lastname"></label>
               <input
                 type="test"
                 className="inputFields"
@@ -72,7 +93,7 @@ const EnrolmentForm = (props) => {
               />
             </li>
             <li>
-              <label htmlFor="email"></label>
+              <label for="email"></label>
               <input
                 type="email"
                 className="inputFields"
@@ -88,9 +109,19 @@ const EnrolmentForm = (props) => {
                 type="submit"
                 id="btnEnrol"
                 name="Enrol"
+                className="btn"
                 alt="Enrol"
-                value="Enroll"
+                value={btnValue}
                 onClick={handleClick}
+              />
+              <input
+                type="submit"
+                id="btnCancel"
+                name="Cancel"
+                className="btn"
+                alt="Cancel"
+                value="Cancel"
+                onClick={handleClickCancel}
               />
             </li>
           </ul>

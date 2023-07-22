@@ -1,36 +1,29 @@
-import { useEffect, useState } from "react";
 import "./App.css";
-import EnrollmentForm from "./Enrollment/EnrollmentForm";
+import EnrolmentForm from ".//Enrollment/EnrollmentForm";
 import EnrolList from "./Enrollment/EnrolList";
+import { useState } from "react";
 
-function App() {
+const App = () => {
   const [program, setProgram] = useState("UG");
-  const [pgSeats, setPgSeats] = useState(40);
   const [ugSeats, setUgSeats] = useState(60);
-  const [currentSeats, setCurrentSeats] = useState(0);
+  const [pgSeats, setPgSeats] = useState(40);
   const [studentDetails, setStudentDetails] = useState({});
   const [action, setAction] = useState();
   const [selItemId, setSelItemId] = useState();
+  const [isUGChecked, setIsUGChecked] = useState(true);
+  const [isRestoreSeats, setIsRestoreSeats] = useState(false);
 
-  const onUpdatedSeats = (updatedSeats) => {
-    program === "PG" ? setPgSeats(updatedSeats) : setUgSeats(updatedSeats);
-    setCurrentSeats(updatedSeats);
-    // setCurrentSeats(val);
-  };
-
-  const handleChange = (e) => {
-    const prog = e.target.value;
-    console.log(prog);
-    setProgram(prog);
-    setPgSeats(pgSeats);
-    setUgSeats(ugSeats);
-
-    if (prog === "PG") {
-      setCurrentSeats(pgSeats);
-    } else {
-      setCurrentSeats(ugSeats);
+  const handleChange = (event) => {
+    setProgram(event.target.value);
+    setIsUGChecked(!isUGChecked);
+    if (isRestoreSeats) {
+      event.target.value === "UG"
+        ? setPgSeats(pgSeats + 1)
+        : setUgSeats(ugSeats + 1);
+      setIsRestoreSeats(false);
     }
   };
+
   const handleItemSelection = (action, id) => {
     setAction(action);
     setSelItemId(id);
@@ -39,13 +32,19 @@ function App() {
     pgm === "UG" ? setUgSeats(ugSeats + 1) : setPgSeats(pgSeats + 1);
     setAction("");
   };
-  useEffect(() => {
-    if (program === "PG") {
-      setCurrentSeats(pgSeats);
+  const setSelectedProgram = (selProgram) => {
+    selProgram === "UG" ? setIsUGChecked(true) : setIsUGChecked(false);
+    setProgram(selProgram);
+    setIsRestoreSeats(true);
+  };
+
+  const setUpdatedSeats = (updatedSeats) => {
+    if (program === "UG") {
+      setUgSeats(updatedSeats);
     } else {
-      setCurrentSeats(ugSeats);
+      setPgSeats(updatedSeats);
     }
-  }, [program, pgSeats, ugSeats]);
+  };
 
   return (
     <div className="App">
@@ -53,20 +52,11 @@ function App() {
         <h3 className="title">Student Enrolment Form</h3>
         <ul className="ulEnrol">
           <li className="parentLabels" onChange={handleChange}>
-            {/* <select
-              className="appDropDowns"
-              value={program}
-
-            >
-              <option value="UG">Undergraduate</option>
-              <option value="PG">Postgraduate</option>
-            </select> */}
             <input
               type="radio"
-              className="radioSel"
               value="UG"
               name="programGroup"
-              defaultChecked
+              checked={isUGChecked}
             />
             Undergraduate
             <input
@@ -74,24 +64,24 @@ function App() {
               className="radioSel"
               value="PG"
               name="programGroup"
+              checked={!isUGChecked}
             />
             Postgraduate
           </li>
           <li>
             <label className="parentLabels">
-              Remaining {program} Seats - {currentSeats}
-              {/* program === "UG" ? ugSeats : pgSeats */}
+              Remaining {program} Seats - {program === "UG" ? ugSeats : pgSeats}
             </label>
           </li>
         </ul>
       </div>
-
-      <EnrollmentForm
+      <EnrolmentForm
         chosenProgram={program}
+        setUpdatedSeats={setUpdatedSeats}
         currentSeats={program === "UG" ? ugSeats : pgSeats}
-        setUpdatedSeats={onUpdatedSeats}
         setStudentDetails={setStudentDetails}
         handleItemSelection={handleItemSelection}
+        setSelectedProgram={setSelectedProgram}
       />
       <EnrolList
         studentDetails={studentDetails}
@@ -102,6 +92,6 @@ function App() {
       />
     </div>
   );
-}
+};
 
 export default App;
